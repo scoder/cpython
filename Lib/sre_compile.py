@@ -371,13 +371,14 @@ def _optimize_charset(charset, iscased=None, fixup=None, fixes=None):
     # less significant byte is a bit index in the chunk (just like the
     # CHARSET matching).
 
-    charmap = bytes(charmap) # should be hashable
+    bcharmap = bytes(charmap) # should be hashable
+    del charmap
     comps = {}
     mapping = bytearray(256)
     block = 0
     data = bytearray()
     for i in range(0, 65536, 256):
-        chunk = charmap[i: i + 256]
+        chunk = bcharmap[i: i + 256]
         if chunk in comps:
             mapping[i // 256] = comps[chunk]
         else:
